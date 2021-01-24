@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "616877595543",
+    "firebase_url": "https://obserwacje-a00f5.firebaseio.com",
+    "project_id": "obserwacje-a00f5",
+    "storage_bucket": "obserwacje-a00f5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:616877595543:android:327e9c93ec22582130c2d2",
+        "android_client_info": {
+          "package_name": "com.example.obserwacje"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "616877595543-1ouufbf844kic9hqnb03724hgq4qghs5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.obserwacje",
+            "certificate_hash": "326398f0082c68ef5897939654c7cd2a9a53070a"
+          }
+        },
+        {
+          "client_id": "616877595543-n0t9h2hv94drke77kn1ju3qmnahfh0t0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1qDdHEgLFIgFKQBwS6Fvd0WpLGg6shI4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "616877595543-n0t9h2hv94drke77kn1ju3qmnahfh0t0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

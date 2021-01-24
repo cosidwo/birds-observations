@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="bottomApp" type="id"></item>
+    <item name="own_list" type="id"></item>
+    <item name="list" type="id"></item>
+    <item name="gallery" type="id"></item>
+    <item name="profile" type="id"></item>
+</resources>

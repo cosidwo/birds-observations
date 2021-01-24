@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:background="#164A41">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Logowanie"
+            android:gravity="center"
+            android:textSize="40dp"
+            android:textColor="#fff"
+            android:layout_marginBottom="20dp"/>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="370dp"
+            android:layout_height="wrap_content"
+            android:hint="E-mail"
+            android:textColorHint="#fff"
+            android:layout_marginBottom="20dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#4D774E"
+                android:id="@+id/email"
+                android:textColorHighlight="#fff"
+                android:textColorLink="#FFFFFF"
+                android:textColor="#fff"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="370dp"
+            android:layout_height="wrap_content"
+            android:hint="Haslo"
+            android:textColorHint="#fff"
+            android:layout_marginBottom="20dp"
+            app:endIconMode="password_toggle">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#4D774E"
+                android:textColorHighlight="#fff"
+                android:id="@+id/password"
+                android:textColorLink="#FFFFFF"
+                android:textColor="#fff"
+                android:inputType="textPassword"/>
+        </com.google.android.material.textfield.TextInputLayout>
+        <Button
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/loginButton"
+            android:text="Zaloguj sie"
+            android:textColor="#F1B24A"
+            style="?attr/materialButtonOutlinedStyle"
+            app:strokeColor="#F1B24A"
+            android:onClick="logIn"/>
+
+        <Button
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/registerButton"
+            android:text="Zaloz konto"
+            android:textColor="#F1B24A"
+            style="?attr/materialButtonOutlinedStyle"
+            app:strokeColor="#F1B24A"
+            android:onClick="goToRegisterActivity"
+            android:layout_marginBottom="5dp"/>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
