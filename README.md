@@ -2,6 +2,7 @@
 ## Table of contents
 * [General info and features](#general-info-and-features)
 * [Technologies](#technologies)
+* [Screenshots](#screenshots)
 * [Installation](#installation)
 
 ## General info and features
