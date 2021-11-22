@@ -19,7 +19,7 @@ Project was created with:
 
 ## Screenshots
 Screenshots of user's dashboard and form used to add observations:  
-![Screenshot of dashboard](screenshots/dashboard.png)
+![Screenshot of dashboard](screenshots/dash.png)
 ![Screenshot of dashboard](screenshots/add.png)
 
 ## Installation 
