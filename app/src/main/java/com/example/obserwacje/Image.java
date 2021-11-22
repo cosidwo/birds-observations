@@ -4,6 +4,7 @@ public class Image {
 
     private String email, imageURI, species, name, place, county, date;
 
+    //constructors
     Image(String email, String imageURI, String species, String name, String place, String county, String date){
         this.email = email;
         this.imageURI = imageURI;
@@ -18,6 +19,8 @@ public class Image {
         this.email="";
         this.imageURI="";
     }
+
+    //Getters and setters below
 
     public String getEmail() {
         return email;

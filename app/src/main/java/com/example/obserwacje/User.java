@@ -4,6 +4,7 @@ public class User {
 
     public String email, haslo, DisplayName;
 
+    //constructors
     public User(String email,String haslo,String imie,String nazwisko){
         this.email=email;
         this.haslo=haslo;
@@ -13,6 +14,9 @@ public class User {
     public User(){
 
     }
+
+
+    //GETTERS AND SETTERS
 
     public String getEmail() {
         return email;

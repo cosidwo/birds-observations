@@ -29,6 +29,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+//activity allowing user to display and change personal information
 public class ProfileActivity extends AppCompatActivity {
 
     private MaterialTextView emailTextView, nameTextView;
@@ -46,6 +47,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        //initializing objects
         emailTextView = (MaterialTextView) findViewById(R.id.emailTextView);
         nameTextView = (MaterialTextView) findViewById(R.id.nameTextView);
         changeNameInput = (TextInputEditText) findViewById(R.id.changeNameInput);
@@ -61,6 +63,7 @@ public class ProfileActivity extends AppCompatActivity {
         dbReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //fetching data from firebase db
                 Iterable<DataSnapshot> children = snapshot.getChildren();
                 ArrayList<User> users = new ArrayList();
                 for(DataSnapshot child : children){
@@ -69,6 +72,7 @@ public class ProfileActivity extends AppCompatActivity {
                 }
                 for(User user : users){
                     if(user.getEmail().equals(email)){
+                        //displaying name and surename
                         nameTextView.setText("Imie i nazwisko: "+ user.getDisplayName2());
                         userFullName = user.getDisplayName2();
                     }
@@ -91,20 +95,21 @@ public class ProfileActivity extends AppCompatActivity {
         });
     }
 
+    //called when user wants to make changes in his profile
     private void acceptChanges(View view){
         String name = changeNameInput.getText().toString().trim();
         String surname = changeSurnameInput.getText().toString().trim();
         String [] nameAndSurname = userFullName.split(" ");
+
+        //surname and name fields cant be empty, personal info is changed if the conditions are met
         if(!(surname.isEmpty()) && !(name.isEmpty())){
             updateUserReference.child("DisplayName").setValue(name +" "+ surname);
         }else if(surname.isEmpty() && !(name.isEmpty())){
             surname = nameAndSurname[1];
             updateUserReference.child("DisplayName").setValue(name+ " "+ surname);
-            Log.d("abc",surname);
         }else if(name.isEmpty() && (!surname.isEmpty())){
             name = nameAndSurname[0];
             updateUserReference.child("DisplayName").setValue(name+" "+surname);
-            Log.d("abc",name);
         }else{
             Toast.makeText(ProfileActivity.this,"Wprowadź dane",Toast.LENGTH_SHORT).show();
         }

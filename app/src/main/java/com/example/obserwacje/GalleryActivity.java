@@ -17,6 +17,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+//activity used to display gallery of images added by users
 public class GalleryActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ImageAdapter imageAdapter;
@@ -28,23 +29,27 @@ public class GalleryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
 
+        //initializing objects
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         images = new ArrayList<>();
 
+        //getting refference to images from database
         databaseReference = FirebaseDatabase.getInstance().getReference("Images");
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //fetching images from database and adding them to List object
                 for(DataSnapshot postSnapshot : snapshot.getChildren()){
                     Image image = postSnapshot.getValue(Image.class);
                     images.add(image);
                 }
-                imageAdapter = new ImageAdapter(GalleryActivity.this, images);
 
+                //displaying images from List
+                imageAdapter = new ImageAdapter(GalleryActivity.this, images);
                 recyclerView.setAdapter(imageAdapter);
             }
 

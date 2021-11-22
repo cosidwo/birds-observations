@@ -4,6 +4,7 @@ public class Observation {
     String email, species, date, category, criterium, accuracy, name, habitat, additional_info, place, county, latLng;
     int number, rare;
 
+    //constructors
     Observation(String email, String species, String date, String category, String criterium, String accuracy, String name, String habitat, String additional_info, String place, String county, String latLng, int number, int rare){
         this.email = email;
         this.species = species;
@@ -24,6 +25,9 @@ public class Observation {
     Observation(){
 
     }
+
+
+    // GETTERS AND SETTERS
 
     public String getEmail() {
         return email;

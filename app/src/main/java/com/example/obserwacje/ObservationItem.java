@@ -3,6 +3,7 @@ package com.example.obserwacje;
 public class ObservationItem {
     String date, species, number, name, email;
 
+    //constructors
     ObservationItem(String date,String species,String number,String name,String email){
         this.date = date;
         this.species = species;
@@ -14,6 +15,9 @@ public class ObservationItem {
     ObservationItem(){
 
     }
+
+
+    //GETTERS AND SETTERS
 
     public String getDate() {
         return date;

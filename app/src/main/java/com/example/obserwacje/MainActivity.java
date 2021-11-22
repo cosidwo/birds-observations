@@ -15,6 +15,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+//login form, app starts with this activity
 public class MainActivity extends AppCompatActivity {
 
     Intent registerIntent;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
 
+    //initializng objects and setting click listeners
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,22 +60,26 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    //called when user wants to log in
     public void logIn(View view){
         String emailText = email.getText().toString().trim();
         String passwordText = password.getText().toString().trim();
 
+        //email field cant be empty
         if(emailText.isEmpty()){
             email.setError("Podaj e-mail");
             email.requestFocus();
             return;
         }
 
+        //password field cant be empty
         if(passwordText.isEmpty()){
             password.setError("Podaj haslo");
             password.requestFocus();
             return;
         }
 
+        //firebase authentication
         mAuth.signInWithEmailAndPassword(emailText,passwordText).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {

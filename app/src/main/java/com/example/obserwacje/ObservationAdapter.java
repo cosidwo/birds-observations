@@ -14,9 +14,11 @@ import com.google.firebase.auth.FirebaseUser;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
+//class used to display observations in RecyclerView
 public class ObservationAdapter extends RecyclerView.Adapter<ObservationAdapter.ObservationViewHolder> {
     private ArrayList<ObservationItem> observationItems;
 
+    //nested static class
     public static class ObservationViewHolder extends RecyclerView.ViewHolder{
         public MaterialTextView date;
         public MaterialTextView species;
@@ -32,6 +34,7 @@ public class ObservationAdapter extends RecyclerView.Adapter<ObservationAdapter.
         }
     }
 
+    //constructor
     public ObservationAdapter(ArrayList<ObservationItem> observationItems){
         this.observationItems = observationItems;
     }
@@ -44,6 +47,7 @@ public class ObservationAdapter extends RecyclerView.Adapter<ObservationAdapter.
         return observationViewHolder;
     }
 
+    //loading info about observations from ArrayList
     @Override
     public void onBindViewHolder(@NonNull ObservationViewHolder holder, int position) {
         ObservationItem currentItem = observationItems.get(position);
@@ -51,9 +55,9 @@ public class ObservationAdapter extends RecyclerView.Adapter<ObservationAdapter.
         holder.species.setText(currentItem.getSpecies());
         holder.number.setText("Licz.: " + currentItem.getNumber());
         holder.place.setText(currentItem.getName());
-
     }
 
+    //getting number of items
     @Override
     public int getItemCount() {
         return observationItems.size();

@@ -48,6 +48,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+//activity allowing user to add observations to database
 public class AddObservationActivity extends FragmentActivity implements OnMapReadyCallback {
 
     DatabaseReference firebaseDatabase;
@@ -79,6 +80,7 @@ public class AddObservationActivity extends FragmentActivity implements OnMapRea
     private TextInputEditText countyEditText;
     private TextInputEditText numberEditText;
 
+    //string arrays used inside menus
     private static String [] species = {"Łabędź czarnodzioby", "Gęś mała", "Hełmiatka", "Perkoz rogaty", "Lodowiec", "Cietrzew","Orzeł przedni", "Czapla nadobna", "Turkawka", "Bocian czarny", "Ślepowron", "Zielonka", "Czajka towarzyska", "Mewa romańska", "Dzierlatka"};
     private static String [] categories = {"Lęgowe", "Wszystkie", "Fenologiczne", "Stado", "Martwe"};
     private static String [] criterion = {"Brak", "O - Pojedyncze ptaki w siedlisku lęgowym", "P - para ptaków w siedlisku lęgowym", "BU - budowa gniazda", "WYS - wysiadywanie na gnieździe", "MŁO - młode zagniazdowniki poza gniazdem"};
@@ -87,6 +89,7 @@ public class AddObservationActivity extends FragmentActivity implements OnMapRea
 
     private String email, speciesObservation, name, place, county, date;
 
+    //initializing objects and setting click listeners
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -114,6 +117,8 @@ public class AddObservationActivity extends FragmentActivity implements OnMapRea
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         storageReference = FirebaseStorage.getInstance().getReference("Images");
 
+
+        //initializng menu objects
         ArrayAdapter arrayAdapter = new ArrayAdapter(this,R.layout.option_item, species);
         speciesMenu.setText(arrayAdapter.getItem(0).toString(), false);
         speciesMenu.setAdapter(arrayAdapter);
@@ -134,8 +139,6 @@ public class AddObservationActivity extends FragmentActivity implements OnMapRea
         habitatsMenu.setText(arrayAdapter5.getItem(0).toString(), false);
         habitatsMenu.setAdapter(arrayAdapter5);
 
-        //PROBA WYLACZENIA WYBORU KRYTERIUM LEGOWOSCI NA STARCIE
-        criterionMenu.setFocusable(false);
         criterionMenu.setFocusableInTouchMode(false);
 
         MaterialDatePicker.Builder builder = MaterialDatePicker.Builder.datePicker();
@@ -148,7 +151,7 @@ public class AddObservationActivity extends FragmentActivity implements OnMapRea
             }
         });
 
-        //PROBA WLACZENIA KRYTERIUM LEGOWOSCI PO WYBRANIU KATEGORII LEGOWEJ
+        //criterion menu is activated only if user chooses "breeding" category
         categoriesMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -188,6 +191,8 @@ public class AddObservationActivity extends FragmentActivity implements OnMapRea
         String category, criterium, accuracy, habitat, additional_info;
         int number, rare;
 
+
+        //collecting info from form
         email = firebaseUser.getEmail();
         speciesObservation = speciesMenu.getText().toString();
         date = dateEditText.getText().toString();
@@ -201,46 +206,55 @@ public class AddObservationActivity extends FragmentActivity implements OnMapRea
         county = countyEditText.getText().toString().trim();
         number = Integer.parseInt(numberEditText.getText().toString());
 
-
+        //disallowing user to upload multiple files for single observation
         if(storageTask == null) {
             uploadFile();
         }
 
-        if(name.length()<7){
+        //validation
+        //full name is too short
+        if(name.length()<6){
             observerNameEditText.setError("Nazwisko obserwatora jest zbyt krótkie");
             observerNameEditText.requestFocus();
             return;
         }
 
+        //first character of place must be uppercase
         if(!Character.isUpperCase(place.charAt(0))){
             placeEditText.setError("Nazwa miejscowości powinna zaczynać się z wielkiej litery");
             placeEditText.requestFocus();
             return;
         }
 
+        //first character of county must be uppercase
         if(!Character.isUpperCase(county.charAt(0))){
             countyEditText.setError("Nazwa gminy powinna zaczynać się z wielkiej litery");
             countyEditText.requestFocus();
             return;
         }
 
+        //number of birds cant be over 50000
         if(number > 50000){
             numberEditText.setError("Liczba jest zbyt duża");
             numberEditText.requestFocus();
             return;
         }
+
+        //name and surname should be separeted by space or dot if user wants to provide only first character of surname
         if(!(name.contains(" ") || name.contains("."))){
             observerNameEditText.setError("Imie i nazwisko powinno być oddzielone spacją lub kropką w przypadku gdy podana jest tylko pierwsza litera nazwiska lub imienia");
             observerNameEditText.requestFocus();
             return;
         }
 
+        //additional info shouldnt be longer than 500 characters
         if(additional_info.length()>500){
             additionalInfoEditText.setError("Podany tekst jest zbyt długi (max 500 znakow");
             additionalInfoEditText.requestFocus();
             return;
         }
 
+        //specifying how rare is the observation (from 0 to 3)
         if(speciesObservation.equals("Łabędź czarnodzioby")||speciesObservation.equals("Ślepowron")||speciesObservation.equals("Dzierlatka"))
             rare = 1;
         else if(speciesObservation.equals("Lodowiec")||speciesObservation.equals("Czajka towarzyska"))
@@ -269,12 +283,9 @@ public class AddObservationActivity extends FragmentActivity implements OnMapRea
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-
-
-
     }
 
+    //called when user wants to add image, allows to choose image from gallery
     private void addImage(View view){
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -282,12 +293,14 @@ public class AddObservationActivity extends FragmentActivity implements OnMapRea
         startActivityForResult(intent,PICK_IMAGE_REQUEST);
     }
 
+    //used to get file extension of image chosen by user
     private String getFileExtensions(Uri uri){
         ContentResolver contentResolver = getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
+    //allows user to upload file to db
     private void uploadFile(){
         if(imageURI != null){
             StorageReference fileReference = storageReference.child(System.currentTimeMillis()+"."+getFileExtensions(imageURI));
@@ -295,9 +308,6 @@ public class AddObservationActivity extends FragmentActivity implements OnMapRea
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Toast.makeText(AddObservationActivity.this, "Udało się zapisać plik", Toast.LENGTH_SHORT).show();
-                    /*Image image = new Image(firebaseUser.getEmail(),taskSnapshot.getMetadata().getReference().getDownloadUrl().toString());
-                    String uploadID = firebaseDatabase2.push().getKey();
-                    firebaseDatabase2.child(uploadID).setValue(image);*/
                     Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
                     while (!urlTask.isSuccessful());
                     Uri downloadUrl = urlTask.getResult();
@@ -325,9 +335,11 @@ public class AddObservationActivity extends FragmentActivity implements OnMapRea
         }
     }
 
+    //map initialization
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
+        //default map coordinates
         map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(51.183835, 22.585523)));
         map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override

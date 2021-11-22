@@ -53,6 +53,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+//dashboard implementation
 public class DashboardActivity extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap map;
 
@@ -77,12 +78,13 @@ public class DashboardActivity extends FragmentActivity implements OnMapReadyCal
 
     private Double lat, lng;
 
+    //initializing objects and setting click listeners
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
+        //initializing map
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
@@ -140,18 +142,19 @@ public class DashboardActivity extends FragmentActivity implements OnMapReadyCal
         });
     }
 
+    //called when user wants to logout
     private void logout(){
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(DashboardActivity.this,MainActivity.class));
     }
 
+    //map implementation
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
 
+        //setting default coordinates for map
         LatLng lublin = new LatLng(51.183835, 22.585523);
-        //map.addMarker(new MarkerOptions().position(lublin).title("Lublin"));
-        //map.moveCamera(CameraUpdateFactory.newLatLng(lublin));
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lublin.latitude, lublin.longitude), 7.0f));
         map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
 
@@ -182,66 +185,21 @@ public class DashboardActivity extends FragmentActivity implements OnMapReadyCal
                 return info;
             }
         });
-        /*databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                BitmapDescriptor grey = BitmapDescriptorFactory.fromResource(R.drawable.ic_place_24dp);
-                BitmapDescriptor blue = BitmapDescriptorFactory.fromResource(R.drawable.ic_baseline_place_blue_24);
-                BitmapDescriptor red = BitmapDescriptorFactory.fromResource(R.drawable.ic__place_red_24);
-             ///////  ArrayList<String> list = collectLatLngs((Map<String,Object>) snapshot.getValue());
-                for(String latLng : list){
-                    latLng = latLng.substring(10);
-                    latLng = latLng.substring(0, latLng.length()-1);
-                    String [] s = latLng.split(",");
-                    lat = Double.parseDouble(s[0]);
-                    lng = Double.parseDouble(s[1]);
-                    LatLng point = new LatLng(lat,lng);
-                    if()
-                        map.addMarker(new MarkerOptions().position(point));
-           //////////     }
-
-        try {
-            ArrayList<Observation> list = collectObservations((Map<Observation, Object>) snapshot.getValue());
-            for (Observation observation : list) {
-                String latLng = observation.getLatLng();
-                latLng = latLng.substring(10);
-                latLng = latLng.substring(0, latLng.length() - 1);
-                String[] s = latLng.split(",");
-                lat = Double.parseDouble(s[0]);
-                lng = Double.parseDouble(s[1]);
-                LatLng point = new LatLng(lat, lng);
-                if (observation.getRare() == 1)
-                    map.addMarker(new MarkerOptions().icon(grey).position(point));
-                else if (observation.getRare() == 2)
-                    map.addMarker(new MarkerOptions().icon(blue).position(point));
-                else if (observation.getRare() == 3)
-                    map.addMarker(new MarkerOptions().icon(red).position(point));
-            }
-        } catch (NullPointerException nullPointerException) {
-                    /*ArrayList<Observation> list = new ArrayList<>();
-                    Observation o = new Observation("abc", "", "","","","","","", "", "", "", "",1,0);
-                    list.add(o);
-        }
-
-    }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });*/
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Iterable<DataSnapshot> children = snapshot.getChildren();
-                Log.d("MyApp","I am here");
                 ArrayList<Observation> observations = new ArrayList();
+
+                //fetching data from database
                 for(DataSnapshot child : children){
                     Observation observation = child.getValue(Observation.class);
                     observations.add(observation);
                 }
+
+                //setting markers' credentials based on data fetched from db
                 for (Observation observation : observations) {
                     String latLng = observation.getLatLng();
                     latLng = latLng.substring(10);
@@ -255,29 +213,29 @@ public class DashboardActivity extends FragmentActivity implements OnMapReadyCal
                     String dateObservationString = observation.getDate();
                     DateFormat dateFormat = new SimpleDateFormat("MMM dd, yyyy");
                     try {
+                        //parsing date of observation and comparing it to current date later on
                         Date dateObservation = dateFormat.parse(dateObservationString);
                         Date dateCurrent = new Date();
                         dateFormat.format(dateCurrent);
                         LocalDateTime localDateTimeObservation = dateObservation.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
                         LocalDateTime localDateTimeCurrent = dateCurrent.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
                         long daysBetween = Duration.between(localDateTimeCurrent,localDateTimeObservation).toDays();
-                        Log.d("MyApp", ""+daysBetween);
+
+                        //displaying only newest observations from past week
                         if((daysBetween>=-7) && (daysBetween<=0)) {
+                            //displaying different colored markers (blue, green and red) depenging on rarity of the observation
                             if (observation.getRare() == 1) {
                                 MarkerOptions markerOptions = new MarkerOptions().position(point).title(title).snippet(snippet);
                                 markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
                                 map.addMarker(markerOptions);
-                                Log.d("MyApp", "I am blue");
                             } else if (observation.getRare() == 2) {
                                 MarkerOptions markerOptions = new MarkerOptions().position(point).title(title).snippet(snippet);
                                 markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
                                 map.addMarker(markerOptions);
-                                Log.d("MyApp", "I am green");
                             } else if (observation.getRare() == 3) {
                                 MarkerOptions markerOptions = new MarkerOptions().position(point).title(title).snippet(snippet);
                                 markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
                                 map.addMarker(markerOptions);
-                                Log.d("MyApp", "I am red");
                             }
                         }
                     } catch (ParseException e) {
@@ -295,31 +253,10 @@ public class DashboardActivity extends FragmentActivity implements OnMapReadyCal
 
         String mapKey = "<font color=#088DA5> Niebieski - nieliczne &nbsp </font> <font color=#BADA55> Zielony - rzadkie &nbsp </font> <font color=#880000> Czerwony - komisyjne </font> ";
         mapKeyTextView.setText(Html.fromHtml(mapKey));
-
     }
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {
 
-    }
-
-    private ArrayList<String> collectLatLngs(Map<String,Object> observations){
-        ArrayList<String> latLngs = new ArrayList<>();
-
-        for(Map.Entry<String,Object> entry : observations.entrySet()){
-            Map singleLatLng = (Map) entry.getValue();
-            latLngs.add((String) singleLatLng.get("latLng"));
-        }
-        return latLngs;
-    }
-
-    private ArrayList<Observation> collectObservations(Map<Observation,Object> observations){
-        ArrayList<Observation> observation = new ArrayList<>();
-
-        for(Map.Entry<Observation,Object> entry : observations.entrySet()){
-            Map singleObservation = (Map) entry.getValue();
-            observation.add((Observation) singleObservation);
-        }
-        return observation;
     }
 }
