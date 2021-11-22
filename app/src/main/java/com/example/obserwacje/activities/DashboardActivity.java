@@ -1,4 +1,4 @@
-package com.example.obserwacje;
+package com.example.obserwacje.activities;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -6,7 +6,6 @@ import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -14,16 +13,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
+import com.example.obserwacje.entities.Observation;
+import com.example.obserwacje.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -38,20 +35,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 //dashboard implementation
 public class DashboardActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -99,11 +90,11 @@ public class DashboardActivity extends FragmentActivity implements OnMapReadyCal
         goToProfileButton = (FloatingActionButton) findViewById(R.id.profile);
         goToGalleryButton = (FloatingActionButton) findViewById(R.id.gallery);
 
-        addObservationIntent = new Intent(this,AddObservationActivity.class);
-        goToOwnObservationsIntent = new Intent(this,OwnObservatationsActivity.class);
+        addObservationIntent = new Intent(this, AddObservationActivity.class);
+        goToOwnObservationsIntent = new Intent(this, OwnObservatationsActivity.class);
         goToAllObservationsIntent = new Intent(this, AllObservationsActivity.class);
-        goToProfileIntent = new Intent(this,ProfileActivity.class);
-        goToGalleryIntent = new Intent(this,GalleryActivity.class);
+        goToProfileIntent = new Intent(this, ProfileActivity.class);
+        goToGalleryIntent = new Intent(this, GalleryActivity.class);
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Observations");
 
@@ -145,7 +136,7 @@ public class DashboardActivity extends FragmentActivity implements OnMapReadyCal
     //called when user wants to logout
     private void logout(){
         FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(DashboardActivity.this,MainActivity.class));
+        startActivity(new Intent(DashboardActivity.this, MainActivity.class));
     }
 
     //map implementation

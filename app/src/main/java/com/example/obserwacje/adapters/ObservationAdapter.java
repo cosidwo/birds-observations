@@ -1,4 +1,4 @@
-package com.example.obserwacje;
+package com.example.obserwacje.adapters;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,11 +7,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.obserwacje.entities.ObservationItem;
+import com.example.obserwacje.R;
 import com.google.android.material.textview.MaterialTextView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 //class used to display observations in RecyclerView

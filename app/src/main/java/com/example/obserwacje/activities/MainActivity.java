@@ -1,4 +1,4 @@
-package com.example.obserwacje;
+package com.example.obserwacje.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.obserwacje.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -35,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        registerIntent = new Intent(this,RegisterActivity.class);
-        loginIntent = new Intent(this,DashboardActivity.class);
+        registerIntent = new Intent(this, RegisterActivity.class);
+        loginIntent = new Intent(this, DashboardActivity.class);
 
         loginButton = (Button) findViewById(R.id.loginButton);
         registerButton= (Button) findViewById(R.id.registerButton);

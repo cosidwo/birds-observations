@@ -1,4 +1,4 @@
-package com.example.obserwacje;
+package com.example.obserwacje.entities;
 
 public class User {
 

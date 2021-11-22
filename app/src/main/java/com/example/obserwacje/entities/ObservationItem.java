@@ -1,10 +1,10 @@
-package com.example.obserwacje;
+package com.example.obserwacje.entities;
 
 public class ObservationItem {
     String date, species, number, name, email;
 
     //constructors
-    ObservationItem(String date,String species,String number,String name,String email){
+    public ObservationItem(String date,String species,String number,String name,String email){
         this.date = date;
         this.species = species;
         this.number = number;
@@ -12,7 +12,7 @@ public class ObservationItem {
         this.email = email;
     }
 
-    ObservationItem(){
+    public ObservationItem(){
 
     }
 

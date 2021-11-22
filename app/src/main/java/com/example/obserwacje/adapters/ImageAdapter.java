@@ -1,4 +1,4 @@
-package com.example.obserwacje;
+package com.example.obserwacje.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.obserwacje.R;
+import com.example.obserwacje.entities.Image;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

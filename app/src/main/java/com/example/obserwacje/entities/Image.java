@@ -1,11 +1,11 @@
-package com.example.obserwacje;
+package com.example.obserwacje.entities;
 
 public class Image {
 
     private String email, imageURI, species, name, place, county, date;
 
     //constructors
-    Image(String email, String imageURI, String species, String name, String place, String county, String date){
+    public Image(String email, String imageURI, String species, String name, String place, String county, String date){
         this.email = email;
         this.imageURI = imageURI;
         this.species = species;
@@ -15,7 +15,7 @@ public class Image {
         this.date = date;
     }
 
-    Image(){
+    public Image(){
         this.email="";
         this.imageURI="";
     }

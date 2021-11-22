@@ -1,11 +1,11 @@
-package com.example.obserwacje;
+package com.example.obserwacje.entities;
 
 public class Observation {
     String email, species, date, category, criterium, accuracy, name, habitat, additional_info, place, county, latLng;
     int number, rare;
 
     //constructors
-    Observation(String email, String species, String date, String category, String criterium, String accuracy, String name, String habitat, String additional_info, String place, String county, String latLng, int number, int rare){
+    public Observation(String email, String species, String date, String category, String criterium, String accuracy, String name, String habitat, String additional_info, String place, String county, String latLng, int number, int rare){
         this.email = email;
         this.species = species;
         this.date = date;
@@ -22,7 +22,7 @@ public class Observation {
         this.rare = rare;
     }
 
-    Observation(){
+    public Observation(){
 
     }
 

@@ -16,32 +16,32 @@
 
         <meta-data android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_key"/>
-        <activity android:name=".MainActivity">
+        <activity android:name=".activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterActivity">
+        <activity android:name=".activities.RegisterActivity">
 
         </activity>
-        <activity android:name=".DashboardActivity">
+        <activity android:name=".activities.DashboardActivity">
 
         </activity>
-        <activity android:name=".AddObservationActivity">
+        <activity android:name=".activities.AddObservationActivity">
 
         </activity>
-        <activity android:name=".OwnObservatationsActivity">
+        <activity android:name=".activities.OwnObservatationsActivity">
 
         </activity>
-        <activity android:name=".AllObservationsActivity">
+        <activity android:name=".activities.AllObservationsActivity">
 
         </activity>
-        <activity android:name=".ProfileActivity">
+        <activity android:name=".activities.ProfileActivity">
 
         </activity>
-        <activity android:name=".GalleryActivity">
+        <activity android:name=".activities.GalleryActivity">
 
         </activity>
     </application>

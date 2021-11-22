@@ -1,13 +1,16 @@
-package com.example.obserwacje;
+package com.example.obserwacje.activities;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.obserwacje.R;
+import com.example.obserwacje.adapters.ObservationAdapter;
+import com.example.obserwacje.entities.Observation;
+import com.example.obserwacje.entities.ObservationItem;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;

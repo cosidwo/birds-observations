@@ -1,8 +1,7 @@
-package com.example.obserwacje;
+package com.example.obserwacje.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +10,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.obserwacje.R;
+import com.example.obserwacje.entities.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -42,7 +43,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         registerButton = (Button) findViewById(R.id.registerButton);
 
-        loginIntent = new Intent(this,MainActivity.class);
+        loginIntent = new Intent(this, MainActivity.class);
 
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override

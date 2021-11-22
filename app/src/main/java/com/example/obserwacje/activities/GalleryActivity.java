@@ -1,4 +1,4 @@
-package com.example.obserwacje;
+package com.example.obserwacje.activities;
 
 import android.os.Bundle;
 import android.widget.Toast;
@@ -8,6 +8,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.obserwacje.entities.Image;
+import com.example.obserwacje.adapters.ImageAdapter;
+import com.example.obserwacje.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
