@@ -16,6 +16,11 @@ Project was created with:
 * Android 11
 * Firebase Realtime Database
 
+## Screenshots
+Screenshots of user's dashboard and form used to add observations:  
+![Screenshot of dashboard](scr/dashboard.png)
+![Screenshot of dashboard](scr/add.png)
+
 ## Installation 
 Clone this repository and import into Android Studio
 ```
