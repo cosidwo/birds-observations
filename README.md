@@ -25,5 +25,5 @@ Screenshots of user's dashboard and form used to add observations:
 ## Installation 
 Clone this repository and import into Android Studio
 ```
-git clone https://github.com/cosidwo/obserwacje.git
+git clone https://github.com/cosidwo/birds-observations.git
 ```
