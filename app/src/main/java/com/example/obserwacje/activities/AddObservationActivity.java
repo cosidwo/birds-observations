@@ -12,7 +12,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.fragment.app.FragmentActivity;
@@ -27,13 +26,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.datepicker.MaterialDatePicker;
-import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -41,12 +36,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
-import com.google.firebase.storage.UploadTask;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 //activity allowing user to add observations to database
 public class AddObservationActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -65,14 +60,11 @@ public class AddObservationActivity extends FragmentActivity implements OnMapRea
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri imageURI;
 
-    private Button button;
-    private Button addImageButton;
     private AutoCompleteTextView speciesMenu;
     private AutoCompleteTextView categoriesMenu;
     private AutoCompleteTextView criterionMenu;
     private AutoCompleteTextView accuracyMenu;
     private AutoCompleteTextView habitatsMenu;
-    private TextInputLayout textInputLayout;
     private TextInputEditText dateEditText;
     private TextInputEditText observerNameEditText;
     private TextInputEditText additionalInfoEditText;
@@ -81,13 +73,17 @@ public class AddObservationActivity extends FragmentActivity implements OnMapRea
     private TextInputEditText numberEditText;
 
     //string arrays used inside menus
-    private static String [] species = {"Łabędź czarnodzioby", "Gęś mała", "Hełmiatka", "Perkoz rogaty", "Lodowiec", "Cietrzew","Orzeł przedni", "Czapla nadobna", "Turkawka", "Bocian czarny", "Ślepowron", "Zielonka", "Czajka towarzyska", "Mewa romańska", "Dzierlatka"};
-    private static String [] categories = {"Lęgowe", "Wszystkie", "Fenologiczne", "Stado", "Martwe"};
-    private static String [] criterion = {"Brak", "O - Pojedyncze ptaki w siedlisku lęgowym", "P - para ptaków w siedlisku lęgowym", "BU - budowa gniazda", "WYS - wysiadywanie na gnieździe", "MŁO - młode zagniazdowniki poza gniazdem"};
-    private static String [] numberType = {"Liczba dokładna", "Liczba szacunkowa", "Liczba przybliżona (na oko)"};
-    private static String [] habitats = {"Aleja przydrożna", "Las liściasty", "Las mieszany", "Las iglasty", "Ols", "Łęg", "Park", "Jezioro", "Staw", "Rzeka", "Łąka", "Rozlewisko", "Pastwisko", "Pole uprawne", "Miasto", "Wieś", "Kopalnia", "Wysypisko śmieci", "Inne"};
+    private static final String [] species = {"Łabędź czarnodzioby", "Gęś mała", "Hełmiatka", "Perkoz rogaty", "Lodowiec", "Cietrzew","Orzeł przedni", "Czapla nadobna", "Turkawka", "Bocian czarny", "Ślepowron", "Zielonka", "Czajka towarzyska", "Mewa romańska", "Dzierlatka"};
+    private static final String [] categories = {"Lęgowe", "Wszystkie", "Fenologiczne", "Stado", "Martwe"};
+    private static final String [] criterion = {"Brak", "O - Pojedyncze ptaki w siedlisku lęgowym", "P - para ptaków w siedlisku lęgowym", "BU - budowa gniazda", "WYS - wysiadywanie na gnieździe", "MŁO - młode zagniazdowniki poza gniazdem"};
+    private static final String [] numberType = {"Liczba dokładna", "Liczba szacunkowa", "Liczba przybliżona (na oko)"};
+    private static final String [] habitats = {"Aleja przydrożna", "Las liściasty", "Las mieszany", "Las iglasty", "Ols", "Łęg", "Park", "Jezioro", "Staw", "Rzeka", "Łąka", "Rozlewisko", "Pastwisko", "Pole uprawne", "Miasto", "Wieś", "Kopalnia", "Wysypisko śmieci", "Inne"};
 
-    private String email, speciesObservation, name, place, county, date;
+    private String speciesObservation;
+    private String name;
+    private String place;
+    private String county;
+    private String date;
 
     //initializing objects and setting click listeners
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
@@ -96,14 +92,13 @@ public class AddObservationActivity extends FragmentActivity implements OnMapRea
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_observation);
 
-        button = (Button) findViewById(R.id.addObservationButton);
-        addImageButton = (Button) findViewById(R.id.addImage);
+        Button button = (Button) findViewById(R.id.addObservationButton);
+        Button addImageButton = (Button) findViewById(R.id.addImage);
         speciesMenu = (AutoCompleteTextView) findViewById(R.id.dropdown_menu);
         categoriesMenu = (AutoCompleteTextView) findViewById(R.id.dropdown_menu2);
         criterionMenu = (AutoCompleteTextView) findViewById(R.id.dropdown_menu3);
         accuracyMenu = (AutoCompleteTextView) findViewById(R.id.dropdown_menu4);
         habitatsMenu = (AutoCompleteTextView) findViewById(R.id.dropdown_menu5);
-        textInputLayout = (TextInputLayout) findViewById(R.id.date);
         dateEditText = (TextInputEditText) findViewById(R.id.date2);
         observerNameEditText = (TextInputEditText) findViewById(R.id.observer);
         additionalInfoEditText = (TextInputEditText) findViewById(R.id.additionalInfo);
@@ -144,46 +139,25 @@ public class AddObservationActivity extends FragmentActivity implements OnMapRea
         MaterialDatePicker.Builder builder = MaterialDatePicker.Builder.datePicker();
         builder.setTitleText("Wybierze date");
         final MaterialDatePicker datePicker = builder.build();
-        dateEditText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                datePicker.show(getSupportFragmentManager(),"DATE PICKER");
-            }
-        });
+        dateEditText.setOnClickListener(v -> datePicker.show(getSupportFragmentManager(),"DATE PICKER"));
 
         //criterion menu is activated only if user chooses "breeding" category
-        categoriesMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(categoriesMenu.getText().toString()=="Lęgowe"){
-                    criterionMenu.setFocusable(true);
-                    criterionMenu.setFocusableInTouchMode(true);
-                }
+        categoriesMenu.setOnClickListener(v -> {
+            if(categoriesMenu.getText().toString().equals("Lęgowe")){
+                criterionMenu.setFocusable(true);
+                criterionMenu.setFocusableInTouchMode(true);
             }
         });
 
-        datePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
-            @Override
-            public void onPositiveButtonClick(Object selection) {
-                dateEditText.setText(""+datePicker.getHeaderText());
-                dateEditText.setFocusable(false);
-                dateEditText.setClickable(true);
-            }
+        datePicker.addOnPositiveButtonClickListener(selection -> {
+            dateEditText.setText(""+datePicker.getHeaderText());
+            dateEditText.setFocusable(false);
+            dateEditText.setClickable(true);
         });
 
-    button.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            addObservation(v);
-        }
-    });
+    button.setOnClickListener(this::addObservation);
 
-    addImageButton.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            addImage(v);
-        }
-    });
+    addImageButton.setOnClickListener(this::addImage);
 
     }
 
@@ -193,18 +167,18 @@ public class AddObservationActivity extends FragmentActivity implements OnMapRea
 
 
         //collecting info from form
-        email = firebaseUser.getEmail();
+        String email = firebaseUser.getEmail();
         speciesObservation = speciesMenu.getText().toString();
-        date = dateEditText.getText().toString();
+        date = Objects.requireNonNull(dateEditText.getText()).toString();
         category = categoriesMenu.getText().toString();
         criterium = criterionMenu.getText().toString();
         accuracy = accuracyMenu.getText().toString();
-        name = observerNameEditText.getText().toString();
+        name = Objects.requireNonNull(observerNameEditText.getText()).toString();
         habitat = habitatsMenu.getText().toString();
-        additional_info = additionalInfoEditText.getText().toString();
-        place = placeEditText.getText().toString().trim();
-        county = countyEditText.getText().toString().trim();
-        number = Integer.parseInt(numberEditText.getText().toString());
+        additional_info = Objects.requireNonNull(additionalInfoEditText.getText()).toString();
+        place = Objects.requireNonNull(placeEditText.getText()).toString().trim();
+        county = Objects.requireNonNull(countyEditText.getText()).toString().trim();
+        number = Integer.parseInt(Objects.requireNonNull(numberEditText.getText()).toString());
 
         //disallowing user to upload multiple files for single observation
         if(storageTask == null) {
@@ -275,7 +249,7 @@ public class AddObservationActivity extends FragmentActivity implements OnMapRea
             }
             String id = firebaseDatabase.push().getKey();
 
-            if(!(latLngText==null || latLngText=="")){
+            if(!(latLngText==null || latLngText.equals(""))){
                 Observation observation = new Observation(email,speciesObservation,date,category,criterium,accuracy,name,habitat,additional_info,place,county,latLngText,number,rare);
                 firebaseDatabase.child(id).setValue(observation);
                 Toast.makeText(AddObservationActivity.this,"Obserwacja zostala dodana",Toast.LENGTH_SHORT).show();
@@ -304,23 +278,15 @@ public class AddObservationActivity extends FragmentActivity implements OnMapRea
     private void uploadFile(){
         if(imageURI != null){
             StorageReference fileReference = storageReference.child(System.currentTimeMillis()+"."+getFileExtensions(imageURI));
-            storageTask = fileReference.putFile(imageURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(AddObservationActivity.this, "Udało się zapisać plik", Toast.LENGTH_SHORT).show();
-                    Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
-                    while (!urlTask.isSuccessful());
-                    Uri downloadUrl = urlTask.getResult();
-                    Image image = new Image(firebaseUser.getEmail(),downloadUrl.toString(), speciesObservation, name, place, county, date);
-                    String uploadId = firebaseDatabase2.push().getKey();
-                    firebaseDatabase2.child(uploadId).setValue(image);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(AddObservationActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show();
-                }
-            });
+            storageTask = fileReference.putFile(imageURI).addOnSuccessListener(taskSnapshot -> {
+                Toast.makeText(AddObservationActivity.this, "Udało się zapisać plik", Toast.LENGTH_SHORT).show();
+                Task<Uri> urlTask = taskSnapshot.getStorage().getDownloadUrl();
+                while (!urlTask.isSuccessful());
+                Uri downloadUrl = urlTask.getResult();
+                Image image = new Image(firebaseUser.getEmail(),downloadUrl.toString(), speciesObservation, name, place, county, date);
+                String uploadId = firebaseDatabase2.push().getKey();
+                firebaseDatabase2.child(uploadId).setValue(image);
+            }).addOnFailureListener(e -> Toast.makeText(AddObservationActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show());
         }else{
             Toast.makeText(this,"Nie wybrano pliku",Toast.LENGTH_SHORT).show();
         }
@@ -341,15 +307,12 @@ public class AddObservationActivity extends FragmentActivity implements OnMapRea
         map = googleMap;
         //default map coordinates
         map.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(51.183835, 22.585523)));
-        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-                if(marker!= null){
-                    marker.remove();
-                }
-                marker = map.addMarker(new MarkerOptions().position(latLng));
-                latLngText = latLng.toString();
+        map.setOnMapClickListener(latLng -> {
+            if(marker!= null){
+                marker.remove();
             }
+            marker = map.addMarker(new MarkerOptions().position(latLng));
+            latLngText = latLng.toString();
         });
     }
 

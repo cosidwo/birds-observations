@@ -47,18 +47,9 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logIn(v);
-            }
-        });
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goToRegisterActivity(v);
-            }
-        });
+        loginButton.setOnClickListener(this::logIn);
+
+        registerButton.setOnClickListener(this::goToRegisterActivity);
     }
 
     //called when user wants to log in
@@ -81,14 +72,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //firebase authentication
-        mAuth.signInWithEmailAndPassword(emailText,passwordText).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    Toast.makeText(MainActivity.this, "Logowanie powiodło się",Toast.LENGTH_SHORT).show();
-                    startActivity(loginIntent);
-                }else Toast.makeText(MainActivity.this,"Wprowadź prawidłowe dane",Toast.LENGTH_SHORT).show();
-            }
+        mAuth.signInWithEmailAndPassword(emailText,passwordText).addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                Toast.makeText(MainActivity.this, "Logowanie powiodło się",Toast.LENGTH_SHORT).show();
+                startActivity(loginIntent);
+            }else Toast.makeText(MainActivity.this,"Wprowadź prawidłowe dane",Toast.LENGTH_SHORT).show();
         });
 
 

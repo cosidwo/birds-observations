@@ -24,7 +24,6 @@ import java.util.List;
 public class GalleryActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private ImageAdapter imageAdapter;
-    private DatabaseReference databaseReference;
     private List<Image> images;
 
     @Override
@@ -40,7 +39,7 @@ public class GalleryActivity extends AppCompatActivity {
         images = new ArrayList<>();
 
         //getting refference to images from database
-        databaseReference = FirebaseDatabase.getInstance().getReference("Images");
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Images");
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override

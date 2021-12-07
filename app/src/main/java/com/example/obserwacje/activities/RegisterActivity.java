@@ -1,31 +1,26 @@
 package com.example.obserwacje.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.obserwacje.R;
 import com.example.obserwacje.entities.User;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.Objects;
 
 //activity allowing user to create an account
 public class RegisterActivity extends AppCompatActivity {
 
     private TextInputEditText email_register, password_register, imie_register, nazwisko_register;
-    private Button registerButton;
-    private Intent loginIntent;
     private FirebaseAuth mAuth;
 
     //initializing objects and setting click listener
@@ -41,16 +36,9 @@ public class RegisterActivity extends AppCompatActivity {
         imie_register = (TextInputEditText) findViewById(R.id.imie_register);
         nazwisko_register = (TextInputEditText) findViewById(R.id.nazwisko_register);
 
-        registerButton = (Button) findViewById(R.id.registerButton);
+        Button registerButton = (Button) findViewById(R.id.registerButton);
 
-        loginIntent = new Intent(this, MainActivity.class);
-
-        registerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                register(v);
-            }
-        });
+        registerButton.setOnClickListener(this::register);
     }
 
     @Override
@@ -62,10 +50,10 @@ public class RegisterActivity extends AppCompatActivity {
     //called when user clicks "REGISTER" button
     public void register(View view){
         String email, password, imie, nazwisko;
-        email = email_register.getText().toString().trim();
-        password = password_register.getText().toString().trim();
-        imie = imie_register.getText().toString().trim();
-        nazwisko = nazwisko_register.getText().toString().trim();
+        email = Objects.requireNonNull(email_register.getText()).toString().trim();
+        password = Objects.requireNonNull(password_register.getText()).toString().trim();
+        imie = Objects.requireNonNull(imie_register.getText()).toString().trim();
+        nazwisko = Objects.requireNonNull(nazwisko_register.getText()).toString().trim();
 
         //email field cant be empty
         if(email.isEmpty()){
@@ -117,23 +105,17 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         //creating user account in firebase db
-        mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    User user = new User(email,password,imie,nazwisko);
+        mAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(task -> {
+            if(task.isSuccessful()){
+                User user = new User(email,password,imie,nazwisko);
 
-                    FirebaseDatabase.getInstance().getReference("User").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(RegisterActivity.this,"Zarejestrowano",Toast.LENGTH_SHORT).show();
-                            } else Toast.makeText(RegisterActivity.this,"Rejestracja nie powiodła się", Toast.LENGTH_SHORT).show();
+                FirebaseDatabase.getInstance().getReference("User").child(Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid()).setValue(user).addOnCompleteListener(task1 -> {
+                    if(task1.isSuccessful()){
+                        Toast.makeText(RegisterActivity.this,"Zarejestrowano",Toast.LENGTH_SHORT).show();
+                    } else Toast.makeText(RegisterActivity.this,"Rejestracja nie powiodła się", Toast.LENGTH_SHORT).show();
 
-                        }
-                    });
-                } else Toast.makeText(RegisterActivity.this,"Rejestracja nie powiodła się", Toast.LENGTH_SHORT).show();
-            }
+                });
+            } else Toast.makeText(RegisterActivity.this,"Rejestracja nie powiodła się", Toast.LENGTH_SHORT).show();
         });
     }
 

@@ -21,16 +21,16 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 //activity allowing user to display and change personal information
 public class ProfileActivity extends AppCompatActivity {
 
-    private MaterialTextView emailTextView, nameTextView;
+    private MaterialTextView nameTextView;
     private TextInputEditText changeNameInput, changeSurnameInput;
     Button acceptChagnesButton;
 
-    private DatabaseReference dbReference, updateUserReference;
-    private FirebaseUser firebaseUser;
+    private DatabaseReference updateUserReference;
     private FirebaseAuth auth;
     String email, id, userFullName;
 
@@ -41,14 +41,14 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         //initializing objects
-        emailTextView = (MaterialTextView) findViewById(R.id.emailTextView);
+        MaterialTextView emailTextView = (MaterialTextView) findViewById(R.id.emailTextView);
         nameTextView = (MaterialTextView) findViewById(R.id.nameTextView);
         changeNameInput = (TextInputEditText) findViewById(R.id.changeNameInput);
         changeSurnameInput = (TextInputEditText) findViewById(R.id.changeSurnameInput);
         acceptChagnesButton = (Button) findViewById(R.id.acceptChangesButton);
 
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-        dbReference = FirebaseDatabase.getInstance().getReference().child("User");
+        FirebaseUser firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference dbReference = FirebaseDatabase.getInstance().getReference().child("User");
         updateUserReference = FirebaseDatabase.getInstance().getReference("User").child(firebaseUser.getUid());
 
         email = firebaseUser.getEmail();
@@ -80,18 +80,13 @@ public class ProfileActivity extends AppCompatActivity {
 
         emailTextView.setText("Email: "+ email);
 
-        acceptChagnesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                acceptChanges(v);
-            }
-        });
+        acceptChagnesButton.setOnClickListener(this::acceptChanges);
     }
 
     //called when user wants to make changes in his profile
     private void acceptChanges(View view){
-        String name = changeNameInput.getText().toString().trim();
-        String surname = changeSurnameInput.getText().toString().trim();
+        String name = Objects.requireNonNull(changeNameInput.getText()).toString().trim();
+        String surname = Objects.requireNonNull(changeSurnameInput.getText()).toString().trim();
         String [] nameAndSurname = userFullName.split(" ");
 
         //surname and name fields cant be empty, personal info is changed if the conditions are met

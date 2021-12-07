@@ -24,7 +24,6 @@ import java.util.ArrayList;
 //activity used to display own observations
 public class OwnObservatationsActivity extends AppCompatActivity {
 
-    private DatabaseReference databaseReference;
     private FirebaseUser firebaseUser;
 
     private RecyclerView recyclerView;
@@ -37,7 +36,7 @@ public class OwnObservatationsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_own_observations);
 
         //initializing objects
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Observations");
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("Observations");
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         recyclerView = (RecyclerView) findViewById(R.id.recyclerViewOwnObservations);
         recyclerView.setHasFixedSize(true);

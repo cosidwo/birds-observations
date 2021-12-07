@@ -48,16 +48,7 @@ import java.util.Date;
 public class DashboardActivity extends FragmentActivity implements OnMapReadyCallback {
     private GoogleMap map;
 
-    private BottomAppBar bottomAppBar;
-
-    private MaterialTextView logoutTextView;
     private MaterialTextView mapKeyTextView;
-
-    private FloatingActionButton addButton;
-    private FloatingActionButton goToOwnObservationsButton;
-    private FloatingActionButton goToAllObservationsButton;
-    private FloatingActionButton goToProfileButton;
-    private FloatingActionButton goToGalleryButton;
 
     private Intent addObservationIntent;
     private Intent goToOwnObservationsIntent;
@@ -79,16 +70,16 @@ public class DashboardActivity extends FragmentActivity implements OnMapReadyCal
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        bottomAppBar = (BottomAppBar) findViewById(R.id.bottomApp);
+        BottomAppBar bottomAppBar = (BottomAppBar) findViewById(R.id.bottomApp);
 
-        logoutTextView = (MaterialTextView) findViewById(R.id.logoutTextView);
+        MaterialTextView logoutTextView = (MaterialTextView) findViewById(R.id.logoutTextView);
         mapKeyTextView = (MaterialTextView) findViewById(R.id.mapKey);
 
-        addButton = (FloatingActionButton) findViewById(R.id.add);
-        goToOwnObservationsButton = (FloatingActionButton) findViewById(R.id.own_list);
-        goToAllObservationsButton = (FloatingActionButton) findViewById(R.id.list);
-        goToProfileButton = (FloatingActionButton) findViewById(R.id.profile);
-        goToGalleryButton = (FloatingActionButton) findViewById(R.id.gallery);
+        FloatingActionButton addButton = (FloatingActionButton) findViewById(R.id.add);
+        FloatingActionButton goToOwnObservationsButton = (FloatingActionButton) findViewById(R.id.own_list);
+        FloatingActionButton goToAllObservationsButton = (FloatingActionButton) findViewById(R.id.list);
+        FloatingActionButton goToProfileButton = (FloatingActionButton) findViewById(R.id.profile);
+        FloatingActionButton goToGalleryButton = (FloatingActionButton) findViewById(R.id.gallery);
 
         addObservationIntent = new Intent(this, AddObservationActivity.class);
         goToOwnObservationsIntent = new Intent(this, OwnObservatationsActivity.class);
@@ -98,39 +89,17 @@ public class DashboardActivity extends FragmentActivity implements OnMapReadyCal
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Observations");
 
-        logoutTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                logout();
-            }
-        });
+        logoutTextView.setOnClickListener(v -> logout());
 
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(addObservationIntent);
-            }
-        });
+        addButton.setOnClickListener(v -> startActivity(addObservationIntent));
 
-        goToOwnObservationsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { startActivity(goToOwnObservationsIntent); }
-        });
+        goToOwnObservationsButton.setOnClickListener(v -> startActivity(goToOwnObservationsIntent));
 
-        goToAllObservationsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { startActivity(goToAllObservationsIntent); }
-        });
+        goToAllObservationsButton.setOnClickListener(v -> startActivity(goToAllObservationsIntent));
 
-        goToProfileButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { startActivity(goToProfileIntent); }
-        });
+        goToProfileButton.setOnClickListener(v -> startActivity(goToProfileIntent));
 
-        goToGalleryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { startActivity(goToGalleryIntent); }
-        });
+        goToGalleryButton.setOnClickListener(v -> startActivity(goToGalleryIntent));
     }
 
     //called when user wants to logout

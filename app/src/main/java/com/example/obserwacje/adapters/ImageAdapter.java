@@ -19,8 +19,8 @@ import java.util.List;
 //class used to display images RecyclerView
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHolder> {
 
-    private Context context;
-    private List<Image> images;
+    private final Context context;
+    private final List<Image> images;
 
     //constructor
     public ImageAdapter(Context context, List<Image> images){
@@ -56,7 +56,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
 
     //nested class
-    public class ImageViewHolder extends RecyclerView.ViewHolder{
+    public static class ImageViewHolder extends RecyclerView.ViewHolder{
         public TextView textView;
         public ImageView imageView;
 

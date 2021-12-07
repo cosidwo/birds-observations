@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 //class used to display observations in RecyclerView
 public class ObservationAdapter extends RecyclerView.Adapter<ObservationAdapter.ObservationViewHolder> {
-    private ArrayList<ObservationItem> observationItems;
+    private final ArrayList<ObservationItem> observationItems;
 
     //nested static class
     public static class ObservationViewHolder extends RecyclerView.ViewHolder{

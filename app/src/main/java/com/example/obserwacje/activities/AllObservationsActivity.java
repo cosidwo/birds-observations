@@ -38,7 +38,7 @@ import java.util.ArrayList;
 //activity used to display all observations of given species
 public class AllObservationsActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    private static String [] species = {"Łabędź czarnodzioby", "Gęś mała", "Hełmiatka", "Perkoz rogaty", "Lodowiec", "Cietrzew","Orzeł przedni", "Czapla nadobna", "Turkawka", "Bocian czarny", "Ślepowron", "Zielonka", "Czajka towarzyska", "Mewa romańska", "Dzierlatka"};
+    private static final String [] species = {"Łabędź czarnodzioby", "Gęś mała", "Hełmiatka", "Perkoz rogaty", "Lodowiec", "Cietrzew","Orzeł przedni", "Czapla nadobna", "Turkawka", "Bocian czarny", "Ślepowron", "Zielonka", "Czajka towarzyska", "Mewa romańska", "Dzierlatka"};
 
     private AutoCompleteTextView speciesMenu;
     private Button mapSpeciesButton;
@@ -156,12 +156,7 @@ public class AllObservationsActivity extends FragmentActivity implements OnMapRe
             }
         });
 
-        mapSpeciesButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mapSpecies(v,map);
-            }
-        });
+        mapSpeciesButton.setOnClickListener(v -> mapSpecies(v,map));
     }
 
     @Override
