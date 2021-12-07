@@ -19,8 +19,16 @@ Project was created with:
 
 ## Screenshots
 Screenshots of user's dashboard and form used to add observations:  
-![Screenshot of dashboard](screenshots/dash.png)
-![Screenshot of dashboard](screenshots/add.png)
+<table>
+  <tr>
+    <td> User's dashboard </td>
+     <td> Add observations form </td>
+  </tr>
+  <tr>
+    <td><img src="screenshots/dash.png" width=270 height=480></td>
+    <td><img src="screenshots/add.png" width=270 height=480></td>
+  </tr>
+ </table>
 
 ## Installation 
 Clone this repository and import into Android Studio
